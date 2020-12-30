@@ -1,0 +1,80 @@
+require('dotenv').config()
+const express = require('express')
+const cloudinary = require('cloudinary').v2
+const { v1: uuidv1 } = require("uuid");
+const formData = require('express-form-data')
+const cors = require('cors')
+const { db } = require('./firebase')
+
+const { createPublicLinks } = require('./helpers');
+
+const app = express()
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+})
+
+app.use(cors())
+
+app.use(formData.parse())
+
+app.post('/image-upload', (req, res) => {
+
+  const values = Object.values(req.files)
+  const promises = values.map(image => {
+    return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
+  })
+
+  Promise
+    .all(promises)
+    .then(results => {
+      const publicLinks = createPublicLinks(results);
+      console.log('results from post', {results})
+      console.log('publicLinks', publicLinks)
+      db.collection('bikes').add({
+        bikeID: uuidv1(),
+        bikeModel: "lightningbolt",
+        _cloudinaryUploadData: results,
+        photos: publicLinks,
+      })
+      return res.json(results)
+    })
+})
+
+app.get('/bikes', async (_req, res) => {
+  const bikesRef = db.collection('bikes');
+  const snapshot = await bikesRef.get();
+  const allBikes = [];
+
+  if (snapshot.empty) {
+    console.log('No bikes!');
+    return;
+  };
+
+  snapshot.forEach(doc => {
+    allBikes.push(doc.data());
+  });
+  return res.json(allBikes);
+})
+
+app.get('/bikes/:bikeModel', async (req, res) => {
+  const { bikeModel } = req.params;
+  const bikesRef = db.collection('bikes');
+  const queryRef = bikesRef.where('bikeModel', '==', bikeModel)
+  const snapshot = await queryRef.get();
+  const allBikesByModel = [];
+
+  if (snapshot.empty) {
+    console.log('No matching bikes');
+    return;
+  }
+
+  snapshot.forEach((doc) => {
+    allBikesByModel.push(doc.data())
+  })
+  return res.json(allBikesByModel);
+});
+
+app.listen(process.env.PORT || 8080, () => console.log('👍'))
