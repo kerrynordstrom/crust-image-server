@@ -78,7 +78,7 @@ app.get('/bikes/:bikeModel', async (req, res) => {
 
   if (snapshot.empty) {
     console.log('No matching bikes');
-    return;
+    return res.json([]);
   }
 
   snapshot.forEach((doc) => {
@@ -87,7 +87,7 @@ app.get('/bikes/:bikeModel', async (req, res) => {
   return res.json(allBikesByModel);
 });
 
-app.get("/bikes/:bikeID", async (req, res) => {
+app.get("/bike/:bikeID", async (req, res) => {
   const { bikeID } = req.params;
   const bikesRef = db.collection("bikes");
   const queryRef = bikesRef.where("bikeID", "==", bikeID);
@@ -97,6 +97,7 @@ app.get("/bikes/:bikeID", async (req, res) => {
 
   if (snapshot.empty) {
     console.log("No matching bikes");
+    return res.json([]);
     return;
   }
 
