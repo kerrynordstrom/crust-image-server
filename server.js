@@ -42,6 +42,7 @@ app.post('/image-upload', async (req, res) => {
         bikeModel: "lightningbolt",
         _cloudinaryUploadData: results,
         photos: publicLinks,
+        approved: false,
       })
       return res.json(results)
     }).catch((error) => {
@@ -84,6 +85,24 @@ app.get('/bikes/:bikeModel', async (req, res) => {
     allBikesByModel.push(doc.data())
   })
   return res.json(allBikesByModel);
+});
+
+app.get("/bikes/:bikeID", async (req, res) => {
+  const { bikeID } = req.params;
+  const bikesRef = db.collection("bikes");
+  const queryRef = bikesRef.where("bikeID", "==", bikeID);
+  const snapshot = await queryRef.get();
+  const allBikesByID = [];
+
+  if (snapshot.empty) {
+    console.log("No matching bikes");
+    return;
+  }
+
+  snapshot.forEach((doc) => {
+    allBikesByID.push(doc.data());
+  });
+  return res.json(allBikesByID);
 });
 
 app.listen(process.env.PORT || 8080, () => console.log('👍'))
