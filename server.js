@@ -20,7 +20,7 @@ app.use(cors())
 
 app.use(formData.parse())
 
-app.post('/image-upload', (req, res) => {
+app.post('/image-upload', async (req, res) => {
 
   const values = Object.values(req.files)
   const promises = values.map(image => {
@@ -38,7 +38,7 @@ app.post('/image-upload', (req, res) => {
 
       
       db.collection('bikes').add({
-        bikeID,
+        bikeID: bikeID,
         bikeModel: "lightningbolt",
         _cloudinaryUploadData: results,
         photos: publicLinks,
@@ -48,7 +48,8 @@ app.post('/image-upload', (req, res) => {
       console.log('Error posting to Firebase collection', error)
     });
 
-    sendApprovalEmail({bikeID});
+    console.log({bikeID})
+    await sendApprovalEmail({bikeID: bikeID});
 })
 
 app.get('/bikes', async (_req, res) => {
