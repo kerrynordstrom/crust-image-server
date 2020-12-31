@@ -88,12 +88,10 @@ app.get('/bikes/:bikeModel', async (req, res) => {
 });
 
 app.get("/bike/:bikeID", async (req, res) => {
-  console.log('req.params w/in bikeID route', {params: req.params})
   const { bikeID } = req.params;
   const bikesRef = db.collection("bikes");
   const queryRef = bikesRef.where("bikeID", "==", bikeID);
   const snapshot = await queryRef.get();
-  console.log('bikeID requested', {bikeID, equality: snapshot})
   const allBikesByID = [];
 
   if (snapshot.empty) {
