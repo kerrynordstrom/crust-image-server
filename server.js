@@ -22,6 +22,7 @@ app.use(formData.parse())
 
 app.post('/image-upload', async (req, res) => {
 
+  let bikeID; 
   const values = Object.values(req.files)
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
@@ -31,7 +32,7 @@ app.post('/image-upload', async (req, res) => {
     .all(promises)
     .then(results => {
       const publicLinks = createPublicLinks(results);
-      const bikeID = uuidv1();
+      bikeID = uuidv1();
 
       console.log('results from post', {results});
       console.log('publicLinks', publicLinks);
