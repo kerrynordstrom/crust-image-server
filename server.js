@@ -48,7 +48,7 @@ app.post('/image-upload', async (req, res) => {
       console.log('Error posting to Firebase collection', error)
     });
 
-    console.log({bikeID})
+    console.log('bikeID within post', {bikeID})
     await sendApprovalEmail({bikeID: bikeID});
 })
 
