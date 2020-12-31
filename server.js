@@ -22,7 +22,7 @@ app.use(formData.parse())
 
 app.post('/image-upload', async (req, res) => {
 
-  let bikeID; 
+  const bikeID = uuidv1(); 
   const values = Object.values(req.files)
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
@@ -32,14 +32,13 @@ app.post('/image-upload', async (req, res) => {
     .all(promises)
     .then(results => {
       const publicLinks = createPublicLinks(results);
-      bikeID = uuidv1();
 
       console.log('results from post', {results});
       console.log('publicLinks', publicLinks);
 
       
       db.collection('bikes').add({
-        bikeID: bikeID,
+        bikeID,
         bikeModel: "lightningbolt",
         _cloudinaryUploadData: results,
         photos: publicLinks,
@@ -50,7 +49,7 @@ app.post('/image-upload', async (req, res) => {
     });
 
     console.log('bikeID within post', {bikeID})
-    await sendApprovalEmail({bikeID: bikeID});
+    await sendApprovalEmail({bikeID});
 })
 
 app.get('/bikes', async (_req, res) => {
