@@ -27,7 +27,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
       html: `<p>Please approve this upload request</p>
             <p>${bikeID}</p>
             <br/>
-            <a href="http://www.google.com">Click Here to Be Redirected to Approval Portal</a>
+            <a href="${functions.config().gmail.origin}/bikes/${bikeID}">Click Here to Be Redirected to Approval Portal</a>
       `
     };
 

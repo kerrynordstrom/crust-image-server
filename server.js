@@ -92,6 +92,7 @@ app.get("/bikes/:bikeID", async (req, res) => {
   const bikesRef = db.collection("bikes");
   const queryRef = bikesRef.where("bikeID", "==", bikeID);
   const snapshot = await queryRef.get();
+  console.log('bikeID requested', {bikeID, equality: snapshot})
   const allBikesByID = [];
 
   if (snapshot.empty) {
