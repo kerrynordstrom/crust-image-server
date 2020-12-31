@@ -6,7 +6,7 @@ const formData = require('express-form-data')
 const cors = require('cors')
 const { db } = require('./firebase')
 
-const { createPublicLinks } = require('./helpers');
+const { createPublicLinks, sendApprovalEmail } = require("./helpers");
 
 const app = express()
 
@@ -47,7 +47,7 @@ app.post('/image-upload', (req, res) => {
     }).catch((error) => {
       console.log('Error posting to Firebase collection', error)
     });
-    
+
     sendApprovalEmail({bikeID});
 })
 
