@@ -31,16 +31,24 @@ app.post('/image-upload', (req, res) => {
     .all(promises)
     .then(results => {
       const publicLinks = createPublicLinks(results);
-      console.log('results from post', {results})
-      console.log('publicLinks', publicLinks)
+      const bikeID = uuidv1();
+
+      console.log('results from post', {results});
+      console.log('publicLinks', publicLinks);
+
+      
       db.collection('bikes').add({
-        bikeID: uuidv1(),
+        bikeID,
         bikeModel: "lightningbolt",
         _cloudinaryUploadData: results,
         photos: publicLinks,
       })
       return res.json(results)
-    })
+    }).catch((error) => {
+      console.log('Error posting to Firebase collection', error)
+    });
+    
+    sendApprovalEmail({bikeID});
 })
 
 app.get('/bikes', async (_req, res) => {

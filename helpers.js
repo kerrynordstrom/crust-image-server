@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 const createPublicLinks = (results) => { 
   const photos = [];
   results.forEach((photo, i) => {
@@ -18,6 +20,16 @@ const createPublicLinks = (results) => {
     photoWithExtension;
 })
 return photos;
+};
+
+const sendApprovalEmail = async ({bikeID}) => {
+  try {
+    await fetch(
+      `${process.env.FIREBASE_CLOUD_FUNCTION_URL}/sendMail?dest=${process.env.FIREBASE_CLOUD_FUNCTION_DESTINATION_EMAIL}&bikeID=${bikeID}`
+    );
+  } catch(error) {
+    console.log('Issue posting to email URL', error)
+  }
 }
 
-module.exports = { createPublicLinks }
+module.exports = { createPublicLinks, sendApprovalEmail };

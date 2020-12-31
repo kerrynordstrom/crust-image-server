@@ -1,11 +1,35 @@
 {
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "crust-image-server",
+  "description": "Image Server to Support Crust Customer Bike Gallery Uploads",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kerrynordstrom/crust-image-server.git"
+  },
+  "keywords": [
+    "crust-bikes"
+  ],
+  "author": "Kerry Nordstrom",
+  "license": "ISC",
   "dependencies": {
     "cloudinary": "^1.23.0",
-    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-form-data": "^2.0.14",
     "firebase": "^8.2.1",
+    "node-fetch": "^2.6.1",
     "uuid": "^8.3.2"
-  }
+  },
+  "engines": {
+    "node": "14.15.x"
+  },
+  "bugs": {
+    "url": "https://github.com/kerrynordstrom/crust-image-server/issues"
+  },
+  "homepage": "https://github.com/kerrynordstrom/crust-image-server#readme"
 }
