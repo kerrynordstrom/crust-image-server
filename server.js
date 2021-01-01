@@ -44,6 +44,7 @@ app.post('/image-upload', async (req, res) => {
         photos: publicLinks,
         approved: false,
       })
+      console.log('results from db write', {results: res.json(results)})
       return res.json(results)
     }).catch((error) => {
       console.log('Error posting to Firebase collection', error)
