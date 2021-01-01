@@ -43,7 +43,7 @@ app.post('/image-upload', async (req, res) => {
         _cloudinaryUploadData: results,
         photos: publicLinks,
         approved: false,
-      }).then((docRef) => {
+      }).then(async (docRef) => {
         const {id: documentID} = docRef;
         console.log('results from db write', {doc: docRef, documentID})
         console.log('bikeID within post', {bikeID, documentID})
