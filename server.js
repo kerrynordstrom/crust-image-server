@@ -100,7 +100,6 @@ app.get("/bike/:bikeID", async (req, res) => {
   if (snapshot.empty) {
     console.log("No matching bikes");
     return res.json([]);
-    return;
   }
 
   snapshot.forEach((doc) => {
@@ -109,9 +108,8 @@ app.get("/bike/:bikeID", async (req, res) => {
   return res.json(allBikesByID);
 });
 
-app.get("/bike/:bikeID/approve", async (req, res) => {
-  const { documentID } = req.query;
- 
+app.post("/bike/:bikeID/approve", async (req, res) => {
+  const { documentID } = req.body;
   try {
     db.collection("bikes").doc(documentID).update({ approved: true });
     return res.send(200);
