@@ -3,7 +3,7 @@ const express = require('express')
 const cloudinary = require('cloudinary').v2
 const { v1: uuidv1 } = require("uuid");
 const formData = require('express-form-data')
-const bodyParser = requre('body-parser');
+const bodyParser = require('body-parser');
 const cors = require('cors')
 const { db } = require('./firebase')
 
