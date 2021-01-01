@@ -109,8 +109,7 @@ app.get("/bike/:bikeID", async (req, res) => {
   return res.json(allBikesByID);
 });
 
-app.get("/bike/approve/:bikeID", async (req, res) => {
-  const { bikeID } = req.params;
+app.get("/bike/:bikeID/approve", async (req, res) => {
   const { documentID } = req.query;
  
   try {

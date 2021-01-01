@@ -54,7 +54,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
             <br/>
             <a href="${
               functions.config().gmail.origin
-            }/bike/approve/${bikeID}?documentID=${documentID}">Click Here to Be Redirected to Approval Portal</a>
+            }/bike/${bikeID}?documentID=${documentID}">Click Here to Be Redirected to Approval Portal</a>
       `,
     };
 
