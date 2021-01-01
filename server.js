@@ -109,18 +109,17 @@ app.get("/bike/:bikeID", async (req, res) => {
   return res.json(allBikesByID);
 });
 
-app.get("/bike/:bikeID/approve", async (req, res) => {
-  const { bikeID, documentID } = req.params;
-
+app.get("/bike/approve/:bikeID", async (req, res) => {
+  const { bikeID } = req.params;
+  const { documentID } = req.query;
+ 
   try {
-    db.collection("bikes").doc(documentID).update({approved: true})
-    return res
-      .send(200)
+    db.collection("bikes").doc(documentID).update({ approved: true });
+    return res.send(200);
   } catch (error) {
-    console.log('could not update document ', error)
-    return res.send(400)
+    console.log("could not update document ", error);
+    return res.send(400);
   }
-  
 });
 
 app.listen(process.env.PORT || 8080, () => console.log('👍'))
