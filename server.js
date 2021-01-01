@@ -106,4 +106,22 @@ app.get("/bike/:bikeID", async (req, res) => {
   return res.json(allBikesByID);
 });
 
+app.get("/bike/:bikeID/approve", async (req, res) => {
+  const { bikeID } = req.params;
+  const bikesRef = db.collection("bikes");
+  const queryRef = bikesRef.where("bikeID", "==", bikeID);
+  const snapshot = await queryRef.get();
+
+  if (snapshot.empty) {
+    console.log("No matching bikes");
+    return res.json([]);
+    return;
+  }
+
+  snapshot.forEach((doc) => {
+    doc.update({ approved: true });
+  });
+  return res.json(allBikesByID);
+});
+
 app.listen(process.env.PORT || 8080, () => console.log('👍'))
