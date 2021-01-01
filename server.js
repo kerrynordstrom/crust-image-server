@@ -3,6 +3,7 @@ const express = require('express')
 const cloudinary = require('cloudinary').v2
 const { v1: uuidv1 } = require("uuid");
 const formData = require('express-form-data')
+const bodyParser = requre('body-parser');
 const cors = require('cors')
 const { db } = require('./firebase')
 
@@ -18,6 +19,7 @@ cloudinary.config({
 
 app.use(cors())
 
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(formData.parse())
 
 app.post('/image-upload', async (req, res) => {
