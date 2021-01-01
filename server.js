@@ -110,21 +110,16 @@ app.get("/bike/:bikeID", async (req, res) => {
 });
 
 app.get("/bike/:bikeID/approve", async (req, res) => {
-  const { bikeID } = req.params;
-  const bikesRef = db.collection("bikes");
-  const queryRef = bikesRef.where("bikeID", "==", bikeID);
-  const snapshot = await queryRef.get();
+  const { bikeID, documentID } = req.params;
 
-  if (snapshot.empty) {
-    console.log("No matching bikes");
-    return res.json([]);
-    return;
+  try {
+    db.collection("bikes").doc(documentID).update({approved: true})
+    return res.status(200).send('Bike has been approved!', {bikeID, documentID});
+  } catch (error) {
+    console.log('could not update document ', error)
+    return res.status(400).send({error})
   }
-
-  snapshot.forEach((doc) => {
-    doc.update({ approved: true });
-  });
-  return res.json(allBikesByID);
+  
 });
 
 app.listen(process.env.PORT || 8080, () => console.log('👍'))

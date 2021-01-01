@@ -24,7 +24,6 @@ return photos;
 
 const sendApprovalEmail = async ({bikeID, documentID}) => {
   try {
-    console.log('email send from within server')
     await fetch(
       `${process.env.FIREBASE_CLOUD_FUNCTION_URL}/sendMail?dest=${process.env.FIREBASE_CLOUD_FUNCTION_DESTINATION_EMAIL}&bikeID=${bikeID}&documentID=${documentID}`
     );
