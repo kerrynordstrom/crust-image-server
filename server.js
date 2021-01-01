@@ -114,10 +114,11 @@ app.get("/bike/:bikeID/approve", async (req, res) => {
 
   try {
     db.collection("bikes").doc(documentID).update({approved: true})
-    return res.status(200).send('Bike has been approved!', {bikeID, documentID});
+    return res
+      .send(200)
   } catch (error) {
     console.log('could not update document ', error)
-    return res.status(400).send({error})
+    return res.send(400)
   }
   
 });
