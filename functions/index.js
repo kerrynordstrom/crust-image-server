@@ -38,6 +38,7 @@ exports.createBike = functions.firestore
     console.log({ bikeID, documentIDParam });
 
     try {
+    console.log("email send from within firebase function");
     await fetch(
       `${functions.config().firebaseFunctions.url}/sendMail?dest=${
         functions.config().firebaseFunctions.url
@@ -61,10 +62,13 @@ exports.sendMail = functions.https.onRequest((req, res) => {
       to: dest,
       subject: "Please approve the following image upload request:",
       html: `<p>Please approve this upload request</p>
-            <p>${bikeID}</p>
+            <p>Bike ID: ${bikeID}</p>
+            <p>Document ID: ${documentID}</p>
             <br/>
-            <a href="${functions.config().gmail.origin}/bike/${bikeID}">Click Here to Be Redirected to Approval Portal</a>
-      `
+            <a href="${
+              functions.config().gmail.origin
+            }/bike/${bikeID}&documentID=${documentID}">Click Here to Be Redirected to Approval Portal</a>
+      `,
     };
 
     return transporter.sendMail(mailOptions, (error, info) => {

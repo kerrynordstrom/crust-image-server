@@ -1,4 +1,4 @@
-require('dotenv').config()
+ require('dotenv').config()
 const express = require('express')
 const cloudinary = require('cloudinary').v2
 const { v1: uuidv1 } = require("uuid");
@@ -43,15 +43,17 @@ app.post('/image-upload', async (req, res) => {
         _cloudinaryUploadData: results,
         photos: publicLinks,
         approved: false,
+      }).then((docRef) => {
+        const {id: documentID} = docRef;
+        console.log('results from db write', {doc: docRef, documentID})
+        console.log('bikeID within post', {bikeID, documentID})
+        await sendApprovalEmail({bikeID, documentID});
       })
-      console.log('results from db write', {results: res.json(results)})
       return res.json(results)
     }).catch((error) => {
       console.log('Error posting to Firebase collection', error)
     });
 
-    console.log('bikeID within post', {bikeID})
-    await sendApprovalEmail({bikeID});
 })
 
 app.get('/bikes', async (_req, res) => {
