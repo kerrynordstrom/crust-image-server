@@ -110,6 +110,7 @@ app.get("/bike/:bikeID", async (req, res) => {
 
 app.post("/bike/:bikeID/approve", async (req, res) => {
   const { documentID } = req.body;
+  console.log('documentID in post', {documentID})
   try {
     db.collection("bikes").doc(documentID).update({ approved: true });
     return res.send(200);
