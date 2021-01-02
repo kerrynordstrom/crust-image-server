@@ -97,7 +97,9 @@ app.get('/bikes/:bikeModel', async (req, res) => {
 app.get("/bike/:bikeID", async (req, res) => {
   const { bikeID } = req.params;
   const bikesRef = db.collection("bikes");
-  const queryRef = bikesRef.where("bikeID", "==", bikeID);
+  const queryRef = bikesRef
+    .where("approved", "==", true)
+    .where("bikeID", "==", bikeID);
   const snapshot = await queryRef.get();
   const allBikesByID = [];
 
