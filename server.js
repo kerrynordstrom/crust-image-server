@@ -19,8 +19,10 @@ cloudinary.config({
 
 app.use(cors())
 
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(formData.parse())
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+app.use(formData.parse());
 
 app.post('/image-upload', async (req, res) => {
 
