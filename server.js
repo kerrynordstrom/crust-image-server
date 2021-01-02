@@ -113,7 +113,6 @@ app.get("/bike/:bikeID", async (req, res) => {
 });
 
 app.post("/bike/:bikeID/approve", async (req, res) => {
-  console.log('req.body', req, req.body)
   const { documentID } = req.body;
   console.log('documentID in post', {documentID})
   try {
