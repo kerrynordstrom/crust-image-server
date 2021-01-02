@@ -79,7 +79,9 @@ app.get('/bikes', async (_req, res) => {
 app.get('/bikes/:bikeModel', async (req, res) => {
   const { bikeModel } = req.params;
   const bikesRef = db.collection('bikes');
-  const queryRef = bikesRef.where('bikeModel', '==', bikeModel)
+  const queryRef = bikesRef
+    .where("approved", "==", true)
+    .where('bikeModel', '==', bikeModel)
   const snapshot = await queryRef.get();
   const allBikesByModel = [];
 
@@ -97,9 +99,7 @@ app.get('/bikes/:bikeModel', async (req, res) => {
 app.get("/bike/:bikeID", async (req, res) => {
   const { bikeID } = req.params;
   const bikesRef = db.collection("bikes");
-  const queryRef = bikesRef
-    .where("approved", "==", true)
-    .where("bikeID", "==", bikeID);
+  const queryRef = bikesRef.where("bikeID", "==", bikeID);
   const snapshot = await queryRef.get();
   const allBikesByID = [];
 
