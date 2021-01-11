@@ -28,6 +28,9 @@ app.post('/image-upload', async (req, res) => {
   console.log("req w/in endpoint", req);
   const { bikeID, bikeDetails } = req.body;
   const values = Object.values(req.files)
+  const parsedBikeDetails = JSON.parse(bikeDetails);
+
+
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
   })
@@ -41,18 +44,20 @@ app.post('/image-upload', async (req, res) => {
       console.log('publicLinks', publicLinks);
 
       
-      db.collection('bikes').add({
-        bikeID,
-        bikeModel: bikeDetails.bikeModel,
-        _cloudinaryUploadData: results,
-        photos: publicLinks,
-        approved: false,
-      }).then(async (docRef) => {
-        const {id: documentID} = docRef;
-        console.log('results from db write', {doc: docRef, documentID})
-        console.log('bikeID within post', {bikeID, documentID})
-        await sendApprovalEmail({bikeID, documentID});
-      })
+      db.collection("bikes")
+        .add({
+          bikeID,
+          bikeModel: parsedBikeDetails.bikeModel,
+          _cloudinaryUploadData: results,
+          photos: publicLinks,
+          approved: false,
+        })
+        .then(async (docRef) => {
+          const { id: documentID } = docRef;
+          console.log("results from db write", { doc: docRef, documentID });
+          console.log("bikeID within post", { bikeID, documentID });
+          await sendApprovalEmail({ bikeID, documentID });
+        });
       return res.json(results)
     }).catch((error) => {
       console.log('Error posting to Firebase collection', error)
