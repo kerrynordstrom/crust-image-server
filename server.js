@@ -26,14 +26,16 @@ app.use(formData.parse());
 
 app.post('/bike-details-upload', (req, res) => {
   console.log('req.body w/in endpoint', req.body)
-  const { bikeDetails } = req.body
-  console.log({bikeDetails})
+  const { bikeID, bikeDetails } = req.body
+  console.log({bikeID, bikeDetails})
   Promise.resolve(bikeDetails);
 });
 
 app.post('/image-upload', async (req, res) => {
 
-  const bikeID = uuidv1(); 
+  // const bikeID = uuidv1(); 
+  const { bikeID } = req.body;
+  console.log('bikeId w/in request')
   const values = Object.values(req.files)
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
