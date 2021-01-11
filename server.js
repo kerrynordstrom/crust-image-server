@@ -24,6 +24,12 @@ app.use(bodyParser.json());
 
 app.use(formData.parse());
 
+app.post('/bike-details-upload', (req, res) => {
+  const { bikeDetails } = req.body
+  console.log({bikeDetails})
+  Promise.resolve(bikeDetails);
+});
+
 app.post('/image-upload', async (req, res) => {
 
   const bikeID = uuidv1(); 
