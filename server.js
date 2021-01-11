@@ -35,7 +35,7 @@ app.post('/image-upload', async (req, res) => {
 
   // const bikeID = uuidv1(); 
   console.log('req.body', req.body)
-  const { bikeID } = req.body;
+  const { bikeID } = req.body.get('bikeID');
   console.log('bikeId w/in request', bikeID)
   const values = Object.values(req.files)
   const promises = values.map(image => {
