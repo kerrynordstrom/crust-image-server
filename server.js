@@ -34,8 +34,9 @@ app.post('/bike-details-upload', (req, res) => {
 app.post('/image-upload', async (req, res) => {
 
   // const bikeID = uuidv1(); 
+  console.log('req.body', req.body)
   const { bikeID } = req.body;
-  console.log('bikeId w/in request')
+  console.log('bikeId w/in request', bikeID)
   const values = Object.values(req.files)
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
