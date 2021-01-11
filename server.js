@@ -26,11 +26,7 @@ app.use(formData.parse());
 
 app.post('/image-upload', async (req, res) => {
   console.log("req w/in endpoint", req);
-  // const { bikeID, bikeDetails } = req.body;
-  // console.log({ bikeID, bikeDetails });
-  // console.log('req.body', req.body)
-  // const { bikeID } = req.body.get('bikeID');
-  // console.log('bikeId w/in request', bikeID)
+  const { bikeID, bikeDetails } = req.body;
   const values = Object.values(req.files)
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
@@ -47,7 +43,7 @@ app.post('/image-upload', async (req, res) => {
       
       db.collection('bikes').add({
         bikeID,
-        bikeModel: "lightningbolt",
+        bikeModel: bikeDetails.bikeModel,
         _cloudinaryUploadData: results,
         photos: publicLinks,
         approved: false,
