@@ -25,6 +25,7 @@ app.use(bodyParser.json());
 app.use(formData.parse());
 
 app.post('/bike-details-upload', (req, res) => {
+  console.log('req.body w/in endpoint', req.body)
   const { bikeDetails } = req.body
   console.log({bikeDetails})
   Promise.resolve(bikeDetails);
