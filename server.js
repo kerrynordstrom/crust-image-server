@@ -28,6 +28,7 @@ app.post('/image-upload', async (req, res) => {
   const { bikeID, bikeDetails } = req.body;
   const values = Object.values(req.files)
   const parsedBikeDetails = JSON.parse(bikeDetails);
+
   const { ['Bike Model']: bikeModel } = parsedBikeDetails;
 
   const promises = values.map(image => {
@@ -86,7 +87,7 @@ app.get('/bikes/:bikeModel', async (req, res) => {
   const bikesRef = db.collection('bikes');
   const queryRef = bikesRef
     .where("approved", "==", true)
-    .where('Bike Model', '==', bikeModel)
+    .where('bikeModel', '==', bikeModel)
   const snapshot = await queryRef.get();
   const allBikesByModel = [];
 
