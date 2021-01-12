@@ -28,8 +28,7 @@ app.post('/image-upload', async (req, res) => {
   const { bikeID, bikeDetails } = req.body;
   const values = Object.values(req.files)
   const parsedBikeDetails = JSON.parse(bikeDetails);
-  console.log({parsedBikeDetails})
-  const { bikeModel } = parsedBikeDetails;
+  const { ['Bike Model']: bikeModel } = parsedBikeDetails;
 
   const promises = values.map(image => {
     return cloudinary.uploader.upload(image.path, {public_id: req.public_id})
