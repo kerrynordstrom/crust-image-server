@@ -68,7 +68,9 @@ app.post('/image-upload', async (req, res) => {
 
 app.get('/bikes', async (_req, res) => {
   const bikesRef = db.collection('bikes');
-  const snapshot = await bikesRef.get();
+  const queryRef = bikesRef
+    .where("approved", "==", true);
+  const snapshot = await queryRef.get();
   const allBikes = [];
 
   if (snapshot.empty) {
