@@ -17,7 +17,7 @@ const admin = require('firebase-admin');
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   };
   // Initialize Firebase
-  admin.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 
 // Get a reference to the database service
 const db = firebase.firestore();
