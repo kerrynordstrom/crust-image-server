@@ -6,7 +6,7 @@ const admin = require('firebase-admin');
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    credential: admin.credential.cert(JSON.parse(process.env.GOOGLE_CLIENT_SECRETS)),
+    // credential: admin.credential.cert(JSON.parse(process.env.GOOGLE_CLIENT_SECRETS)),
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.FIREBASE_DATABASE_URL,
