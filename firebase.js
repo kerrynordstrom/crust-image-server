@@ -1,9 +1,12 @@
 require("dotenv").config();
 const firebase = require("firebase");
+const admin = require('firebase-admin');
+
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
+    credential: admin.credential.cert(process.env.GOOGLE_CLIENT_SECRETS),
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.FIREBASE_DATABASE_URL,
@@ -14,7 +17,7 @@ const firebase = require("firebase");
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   };
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  admin.initializeApp(firebaseConfig);
 
 // Get a reference to the database service
 const db = firebase.firestore();
