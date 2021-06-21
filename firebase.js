@@ -16,11 +16,10 @@ const admin = require('firebase-admin');
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   };
-  
-  // Get a reference to the database service
-  const db = firebase.firestore();
-
   // Initialize Firebase
-  admin.initializeApp(firebaseConfig);
-  
+  const app = admin.initializeApp(firebaseConfig);
+
+// Get a reference to the database service
+const db = firebase.firestore(app);
+
 module.exports = { db };
