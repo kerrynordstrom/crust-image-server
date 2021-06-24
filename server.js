@@ -29,7 +29,7 @@ app.post('/image-upload', async (req, res) => {
   const values = Object.values(req.files)
   const parsedBikeDetails = JSON.parse(bikeDetails);
 
-  const { ['Bike Model']: bikeModel, ['Email Address']: emailAddress } = parsedBikeDetails;
+  const { ['Bike Model']: bikeModel, ['Email Address']: emailAddress, ['User Name']: userName } = parsedBikeDetails;
 
   delete parsedBikeDetails['Email Address'];
 
@@ -50,6 +50,7 @@ app.post('/image-upload', async (req, res) => {
         .add({
           bikeID,
           bikeModel: bikeModel,
+          userName: userName,
           emailAddress: emailAddress,
           bikeDetails: parsedBikeDetails,
           _cloudinaryUploadData: results,
